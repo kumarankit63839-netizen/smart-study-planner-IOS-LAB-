@@ -1,0 +1,432 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BD6FDADF0D17C18228F9322A /* SmartStudentPlannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B246B7810B03ADCBA1974B5 /* SmartStudentPlannerApp.swift */; };
+		8020EE857C84868EF420106E /* StudyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC27AA2A189976640FBA93B5 /* StudyTask.swift */; };
+		F5FCDEFB88397A48A87E1D2B /* ClassSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6129A6605081E09F04A0B36 /* ClassSession.swift */; };
+		A58CF48A413930F9C139BE16 /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F35B67A63B856977F296F7D /* Priority.swift */; };
+		DC5A1A6DE659B2358F449FBF /* Weekday.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0F2DE2E269E9ED1F81E102 /* Weekday.swift */; };
+		E4625DAC6DE871C323F2FB23 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135206D973E5D2A67E601AEC /* NotificationManager.swift */; };
+		05610D8BF7E5E5DE5C26FF08 /* SampleDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0E6F9FBF054C19200E0E78 /* SampleDataService.swift */; };
+		3930ACCAA53D59225D148AF0 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D46A89EC484C9353D7713BB /* DateHelpers.swift */; };
+		D770980980247150FDA62A87 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F45FC800D133B3576528D04 /* ColorTheme.swift */; };
+		1070A30B8BA8D2DB3718211E /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE61ED9660F3BEB687B7D5C3 /* MainTabView.swift */; };
+		2A27EB21B2E3CA41D450F7FB /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F181AD440CB557950933B910 /* DashboardView.swift */; };
+		86D11819E51243833404FED4 /* QuickStatCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F92EC3E9F3AFB2916638465 /* QuickStatCard.swift */; };
+		5C38F7936F91DD1325BFCC67 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA18C665FB730B0A20C7616 /* TaskListView.swift */; };
+		4EF026DA19F8DB0E6DABC925 /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E196F47FB2BF5E081893BB31 /* TaskCardView.swift */; };
+		E94EBB7DFC73E6B8A7379A43 /* TaskFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0FFDB4CED932B69088B866 /* TaskFormView.swift */; };
+		B3417AD19D11DBB3DC8F618E /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F690C4EB054DEDFBB6C96924 /* TaskDetailView.swift */; };
+		48DCB450A33675D6CA0F2AB4 /* TimetableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF864876D6A7D6DF6295F402 /* TimetableView.swift */; };
+		331E13AD4C6C99AA7C092814 /* ClassCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA365BE8CFA39480D48BF3C2 /* ClassCardView.swift */; };
+		1970C9A0FF5A29A9143F1F9E /* ClassFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B227CD5E38944E48038A087D /* ClassFormView.swift */; };
+		4BB6DA5AE682C2DB57A26634 /* ProgressTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBB5D51D18B04E2D59D92D /* ProgressTrackerView.swift */; };
+		930D80ADB7A06B4C7CA3441B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64C950D89C83BD929C28F1E /* SettingsView.swift */; };
+		A5B8E909AF6BCD2F713DA2C7 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4C414CFD93E6DF8BBE233 /* EmptyStateView.swift */; };
+		9D5EE3BD9D6115B471176CAB /* PriorityBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFACF01F523228FA85BB20F /* PriorityBadge.swift */; };
+		B121912C86CBE8080834E708 /* SubjectTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E99699E33134199737E27A9 /* SubjectTagView.swift */; };
+		95F893ABF8DE2704294E63B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6F6ABE94D04E6FE650F43E3C /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5141EFFF35ACD6C51F274E4D /* SmartStudentPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStudentPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F6ABE94D04E6FE650F43E3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AC6E896E9DD05964D7E47410 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B246B7810B03ADCBA1974B5 /* SmartStudentPlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartStudentPlannerApp.swift; sourceTree = "<group>"; };
+		CC27AA2A189976640FBA93B5 /* StudyTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyTask.swift; sourceTree = "<group>"; };
+		A6129A6605081E09F04A0B36 /* ClassSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassSession.swift; sourceTree = "<group>"; };
+		0F35B67A63B856977F296F7D /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
+		DC0F2DE2E269E9ED1F81E102 /* Weekday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weekday.swift; sourceTree = "<group>"; };
+		135206D973E5D2A67E601AEC /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		BE0E6F9FBF054C19200E0E78 /* SampleDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleDataService.swift; sourceTree = "<group>"; };
+		2D46A89EC484C9353D7713BB /* DateHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelpers.swift; sourceTree = "<group>"; };
+		8F45FC800D133B3576528D04 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
+		CE61ED9660F3BEB687B7D5C3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		F181AD440CB557950933B910 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		0F92EC3E9F3AFB2916638465 /* QuickStatCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStatCard.swift; sourceTree = "<group>"; };
+		BFA18C665FB730B0A20C7616 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
+		E196F47FB2BF5E081893BB31 /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
+		4E0FFDB4CED932B69088B866 /* TaskFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskFormView.swift; sourceTree = "<group>"; };
+		F690C4EB054DEDFBB6C96924 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
+		BF864876D6A7D6DF6295F402 /* TimetableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimetableView.swift; sourceTree = "<group>"; };
+		EA365BE8CFA39480D48BF3C2 /* ClassCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCardView.swift; sourceTree = "<group>"; };
+		B227CD5E38944E48038A087D /* ClassFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassFormView.swift; sourceTree = "<group>"; };
+		ACDBB5D51D18B04E2D59D92D /* ProgressTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTrackerView.swift; sourceTree = "<group>"; };
+		C64C950D89C83BD929C28F1E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A0C4C414CFD93E6DF8BBE233 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		AEFACF01F523228FA85BB20F /* PriorityBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityBadge.swift; sourceTree = "<group>"; };
+		9E99699E33134199737E27A9 /* SubjectTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectTagView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A9E872B0C4F3AB11D258C39F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0A85897F1A32FE9B91C081CD = {
+			isa = PBXGroup;
+			children = (
+				9692EFAB4EEBC9859177C6D2 /* SmartStudentPlanner */,
+				B88D7E26791946AEFDCC8BB7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B88D7E26791946AEFDCC8BB7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5141EFFF35ACD6C51F274E4D /* SmartStudentPlanner.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC8E6A5FDB0FEE50AF1B10E7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CC27AA2A189976640FBA93B5 /* StudyTask.swift */,
+				A6129A6605081E09F04A0B36 /* ClassSession.swift */,
+				0F35B67A63B856977F296F7D /* Priority.swift */,
+				DC0F2DE2E269E9ED1F81E102 /* Weekday.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FA1196890D421541891D17B1 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				135206D973E5D2A67E601AEC /* NotificationManager.swift */,
+				BE0E6F9FBF054C19200E0E78 /* SampleDataService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		FD300FCC63CD372F91EB5F83 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2D46A89EC484C9353D7713BB /* DateHelpers.swift */,
+				8F45FC800D133B3576528D04 /* ColorTheme.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		E161DB045FADEB8F85E0E676 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				F181AD440CB557950933B910 /* DashboardView.swift */,
+				0F92EC3E9F3AFB2916638465 /* QuickStatCard.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		273A778CCF72442E62CB205B /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				BFA18C665FB730B0A20C7616 /* TaskListView.swift */,
+				E196F47FB2BF5E081893BB31 /* TaskCardView.swift */,
+				4E0FFDB4CED932B69088B866 /* TaskFormView.swift */,
+				F690C4EB054DEDFBB6C96924 /* TaskDetailView.swift */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		F25D83E760832D962724CB66 /* Timetable */ = {
+			isa = PBXGroup;
+			children = (
+				BF864876D6A7D6DF6295F402 /* TimetableView.swift */,
+				EA365BE8CFA39480D48BF3C2 /* ClassCardView.swift */,
+				B227CD5E38944E48038A087D /* ClassFormView.swift */,
+			);
+			path = Timetable;
+			sourceTree = "<group>";
+		};
+		48B1FB497B556556610EA969 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				ACDBB5D51D18B04E2D59D92D /* ProgressTrackerView.swift */,
+			);
+			path = Progress;
+			sourceTree = "<group>";
+		};
+		87C70582996E9ED1DE66C380 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C64C950D89C83BD929C28F1E /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		7ED8C70510190B876F51EFCA /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A0C4C414CFD93E6DF8BBE233 /* EmptyStateView.swift */,
+				AEFACF01F523228FA85BB20F /* PriorityBadge.swift */,
+				9E99699E33134199737E27A9 /* SubjectTagView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		F867080DDDCAA8CC74A91BE2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CE61ED9660F3BEB687B7D5C3 /* MainTabView.swift */,
+				E161DB045FADEB8F85E0E676 /* Dashboard */,
+				273A778CCF72442E62CB205B /* Tasks */,
+				F25D83E760832D962724CB66 /* Timetable */,
+				48B1FB497B556556610EA969 /* Progress */,
+				87C70582996E9ED1DE66C380 /* Settings */,
+				7ED8C70510190B876F51EFCA /* Components */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9692EFAB4EEBC9859177C6D2 /* SmartStudentPlanner */ = {
+			isa = PBXGroup;
+			children = (
+				6B246B7810B03ADCBA1974B5 /* SmartStudentPlannerApp.swift */,
+				BC8E6A5FDB0FEE50AF1B10E7 /* Models */,
+				F867080DDDCAA8CC74A91BE2 /* Views */,
+				FA1196890D421541891D17B1 /* Services */,
+				FD300FCC63CD372F91EB5F83 /* Utilities */,
+				6F6ABE94D04E6FE650F43E3C /* Assets.xcassets */,
+				AC6E896E9DD05964D7E47410 /* Info.plist */,
+			);
+			path = SmartStudentPlanner;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		730950AD798A77AD508AA9E2 /* SmartStudentPlanner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8DC218CD826613AD2E353F27 /* Build configuration list for PBXNativeTarget "SmartStudentPlanner" */;
+			buildPhases = (
+				7EE609159AC086BAB15FF998 /* Sources */,
+				A9E872B0C4F3AB11D258C39F /* Frameworks */,
+				A2892AFC2D88060C0AA91373 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartStudentPlanner;
+			productName = SmartStudentPlanner;
+			productReference = 5141EFFF35ACD6C51F274E4D /* SmartStudentPlanner.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1781F676DEDF5767F3243DB0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					730950AD798A77AD508AA9E2 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = C1B0D475F7746409ADBE8D6F /* Build configuration list for PBXProject "SmartStudentPlanner" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0A85897F1A32FE9B91C081CD;
+			productRefGroup = B88D7E26791946AEFDCC8BB7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				730950AD798A77AD508AA9E2 /* SmartStudentPlanner */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A2892AFC2D88060C0AA91373 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95F893ABF8DE2704294E63B9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7EE609159AC086BAB15FF998 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD6FDADF0D17C18228F9322A /* SmartStudentPlannerApp.swift in Sources */,
+				8020EE857C84868EF420106E /* StudyTask.swift in Sources */,
+				F5FCDEFB88397A48A87E1D2B /* ClassSession.swift in Sources */,
+				A58CF48A413930F9C139BE16 /* Priority.swift in Sources */,
+				DC5A1A6DE659B2358F449FBF /* Weekday.swift in Sources */,
+				E4625DAC6DE871C323F2FB23 /* NotificationManager.swift in Sources */,
+				05610D8BF7E5E5DE5C26FF08 /* SampleDataService.swift in Sources */,
+				3930ACCAA53D59225D148AF0 /* DateHelpers.swift in Sources */,
+				D770980980247150FDA62A87 /* ColorTheme.swift in Sources */,
+				1070A30B8BA8D2DB3718211E /* MainTabView.swift in Sources */,
+				2A27EB21B2E3CA41D450F7FB /* DashboardView.swift in Sources */,
+				86D11819E51243833404FED4 /* QuickStatCard.swift in Sources */,
+				5C38F7936F91DD1325BFCC67 /* TaskListView.swift in Sources */,
+				4EF026DA19F8DB0E6DABC925 /* TaskCardView.swift in Sources */,
+				E94EBB7DFC73E6B8A7379A43 /* TaskFormView.swift in Sources */,
+				B3417AD19D11DBB3DC8F618E /* TaskDetailView.swift in Sources */,
+				48DCB450A33675D6CA0F2AB4 /* TimetableView.swift in Sources */,
+				331E13AD4C6C99AA7C092814 /* ClassCardView.swift in Sources */,
+				1970C9A0FF5A29A9143F1F9E /* ClassFormView.swift in Sources */,
+				4BB6DA5AE682C2DB57A26634 /* ProgressTrackerView.swift in Sources */,
+				930D80ADB7A06B4C7CA3441B /* SettingsView.swift in Sources */,
+				A5B8E909AF6BCD2F713DA2C7 /* EmptyStateView.swift in Sources */,
+				9D5EE3BD9D6115B471176CAB /* PriorityBadge.swift in Sources */,
+				B121912C86CBE8080834E708 /* SubjectTagView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1CB260ECA72772F3539ACAE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		097570E30ADDA6899200AEB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = "wholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		17ADAAC05E3809596D8A42CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SmartStudentPlanner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.college.SmartStudentPlanner;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE = YES;
+				SUPPORTS_MACCATALYST = YES;
+			};
+			name = Debug;
+		};
+		DB21F76A08841FC296CFDFE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SmartStudentPlanner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.college.SmartStudentPlanner;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE = YES;
+				SUPPORTS_MACCATALYST = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C1B0D475F7746409ADBE8D6F /* Build configuration list for PBXProject "SmartStudentPlanner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1CB260ECA72772F3539ACAE9 /* Debug */,
+				097570E30ADDA6899200AEB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8DC218CD826613AD2E353F27 /* Build configuration list for PBXNativeTarget "SmartStudentPlanner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17ADAAC05E3809596D8A42CE /* Debug */,
+				DB21F76A08841FC296CFDFE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 1781F676DEDF5767F3243DB0 /* Project object */;
+}

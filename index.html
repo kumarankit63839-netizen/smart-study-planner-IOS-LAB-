@@ -1,0 +1,2682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Student Planner — iOS &amp; Mac Laptop Workspace</title>
+  <meta name="description" content="Interactive native simulator preview of Smart Student Planner for iPhone and Mac laptop, built with Swift, SwiftUI, and SwiftData.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4F46E5;
+      --primary-light: #6366F1;
+      --primary-bg: rgba(79, 70, 229, 0.10);
+      --electric-blue: #2563EB;
+      --sky-blue: #0EA5E9;
+      --mint: #10B981;
+      --mint-bg: rgba(16, 185, 129, 0.12);
+      --amber: #F59E0B;
+      --amber-bg: rgba(245, 158, 11, 0.12);
+      --coral: #EF4444;
+      --coral-bg: rgba(239, 68, 68, 0.12);
+      --purple: #8B5CF6;
+      --pink: #EC4899;
+
+      /* Device styling */
+      --body-bg: #0B0F19;
+      --phone-border: #1E293B;
+      --phone-bg: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --card-border: rgba(0, 0, 0, 0.06);
+      --text-main: #0F172A;
+      --text-secondary: #64748B;
+      --text-muted: #94A3B8;
+      --segment-bg: #E2E8F0;
+      --segment-active: #FFFFFF;
+      --input-bg: #F1F5F9;
+      --tab-bar-bg: rgba(255, 255, 255, 0.88);
+      --nav-header-bg: rgba(255, 255, 255, 0.85);
+      --mac-sidebar-bg: #F1F5F9;
+      --mac-sidebar-border: rgba(0, 0, 0, 0.08);
+      --island-bg: #000000;
+    }
+
+    [data-theme="dark"] {
+      --phone-bg: #0D1322;
+      --card-bg: #161F30;
+      --card-border: rgba(255, 255, 255, 0.07);
+      --text-main: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --segment-bg: #1E293B;
+      --segment-active: #334155;
+      --input-bg: #1E293B;
+      --tab-bar-bg: rgba(22, 31, 48, 0.90);
+      --nav-header-bg: rgba(22, 31, 48, 0.88);
+      --mac-sidebar-bg: #111827;
+      --mac-sidebar-border: rgba(255, 255, 255, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--body-bg);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+
+    /* Top Banner / Device Toolbar */
+    .host-banner {
+      width: 100%;
+      max-width: 1060px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .banner-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .banner-badge {
+      background: linear-gradient(135deg, #4F46E5, #06B6D4);
+      color: white;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .banner-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #F8FAFC;
+    }
+
+    .banner-subtitle {
+      font-size: 12px;
+      color: #94A3B8;
+    }
+
+    .banner-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .device-switcher {
+      display: flex;
+      background: #1E293B;
+      padding: 3px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-device {
+      background: none;
+      border: none;
+      color: #94A3B8;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-device.active {
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+    }
+
+    .btn-action {
+      background: #334155;
+      color: #F8FAFC;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      background: #475569;
+      transform: translateY(-1px);
+    }
+
+    .btn-action.active {
+      background: var(--primary);
+    }
+
+    /* Main Simulator Layout */
+    .simulator-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      max-width: 1060px;
+    }
+
+    /* ============================================================== */
+    /* 1. IPHONE FRAME STYLING */
+    /* ============================================================== */
+    .device-shell.iphone-mode {
+      width: 400px;
+      height: 844px;
+      background: var(--phone-bg);
+      border: 12px solid #1E293B;
+      border-radius: 54px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6), inset 0 0 4px rgba(255, 255, 255, 0.1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Dynamic Island (iPhone only) */
+    .dynamic-island {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 32px;
+      background: var(--island-bg);
+      border-radius: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+
+    .dynamic-island.expanded {
+      width: 340px;
+      height: 70px;
+      border-radius: 26px;
+      padding: 12px 18px;
+    }
+
+    .island-camera {
+      width: 10px;
+      height: 10px;
+      background: #111827;
+      border-radius: 50%;
+      border: 1px solid #1F2937;
+    }
+
+    .island-sensor {
+      width: 8px;
+      height: 8px;
+      background: #0F172A;
+      border-radius: 50%;
+    }
+
+    .island-content {
+      display: none;
+      width: 100%;
+      color: white;
+      font-size: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dynamic-island.expanded .island-content {
+      display: flex;
+    }
+
+    .dynamic-island.expanded .island-camera,
+    .dynamic-island.expanded .island-sensor {
+      display: none;
+    }
+
+    /* iOS Status Bar */
+    .status-bar {
+      height: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 24px 8px 24px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      z-index: 90;
+      user-select: none;
+    }
+
+    /* ============================================================== */
+    /* 2. MACBOOK LAPTOP FRAME STYLING */
+    /* ============================================================== */
+    .device-shell.mac-mode {
+      width: 100%;
+      max-width: 1040px;
+      height: 720px;
+      background: var(--phone-bg);
+      border: 10px solid #1E293B;
+      border-radius: 24px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* macOS Titlebar */
+    .mac-titlebar {
+      height: 42px;
+      background: var(--mac-sidebar-bg);
+      border-bottom: 1px solid var(--mac-sidebar-border);
+      display: none;
+      align-items: center;
+      padding: 0 16px;
+      user-select: none;
+      position: relative;
+      z-index: 100;
+    }
+
+    .device-shell.mac-mode .mac-titlebar {
+      display: flex;
+    }
+
+    .device-shell.mac-mode .status-bar,
+    .device-shell.mac-mode .dynamic-island,
+    .device-shell.mac-mode .home-indicator,
+    .device-shell.mac-mode .tab-bar {
+      display: none !important;
+    }
+
+    .traffic-lights {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .traffic-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .traffic-close { background: #FF5F56; border: 1px solid #E0443E; }
+    .traffic-min { background: #FFBD2E; border: 1px solid #DEA123; }
+    .traffic-max { background: #27C93F; border: 1px solid #1AAB29; }
+
+    .mac-titlebar-text {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* macOS Dual-Pane Split Layout */
+    .mac-split-layout {
+      display: flex;
+      flex: 1;
+      height: calc(100% - 42px);
+      overflow: hidden;
+    }
+
+    /* macOS Sidebar */
+    .mac-sidebar {
+      width: 250px;
+      background: var(--mac-sidebar-bg);
+      border-right: 1px solid var(--mac-sidebar-border);
+      display: none;
+      flex-direction: column;
+      padding: 16px 12px;
+      overflow-y: auto;
+    }
+
+    .device-shell.mac-mode .mac-sidebar {
+      display: flex;
+    }
+
+    .mac-sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px 16px 10px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 14px;
+    }
+
+    .mac-brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .mac-sidebar-section {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 12px 10px 6px 10px;
+    }
+
+    .mac-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+
+    .mac-nav-item:hover {
+      background: rgba(148, 163, 184, 0.12);
+    }
+
+    .mac-nav-item.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .mac-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mac-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 20px;
+      background: var(--amber-bg);
+      color: var(--amber);
+    }
+
+    .mac-nav-item.active .mac-badge {
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+    }
+
+    .mac-sidebar-footer {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* App Screen Viewport */
+    .app-screen {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: var(--phone-bg);
+      color: var(--text-main);
+      padding-bottom: 74px; /* Space for iPhone tab bar */
+    }
+
+    .device-shell.mac-mode .app-screen {
+      padding-bottom: 24px;
+      height: 100%;
+    }
+
+    .app-screen::-webkit-scrollbar {
+      width: 6px;
+    }
+    .app-screen::-webkit-scrollbar-thumb {
+      background: var(--text-muted);
+      border-radius: 4px;
+    }
+
+    /* Navigation Header */
+    .nav-header {
+      position: sticky;
+      top: 0;
+      background: var(--nav-header-bg);
+      backdrop-filter: blur(16px);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .nav-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.4px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    .icon-btn:hover {
+      background: var(--primary-bg);
+    }
+
+    /* Tab Panels */
+    .tab-panel {
+      display: none;
+      padding: 16px;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Desktop Multi-column Grid in Mac Mode */
+    .device-shell.mac-mode .mac-dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 20px;
+    }
+
+    /* Common Card Style */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      transition: all 0.2s ease;
+    }
+
+    /* Dashboard Widgets */
+    .greeting-widget {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .date-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+    }
+
+    .greeting-text {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .sub-greeting {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .student-avatar {
+      width: 48px;
+      height: 48px;
+      background: var(--primary-bg);
+      color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    /* Progress Card */
+    .progress-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .progress-title {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .progress-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .progress-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .bar-track {
+      height: 10px;
+      background: var(--input-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--sky-blue));
+      border-radius: 8px;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Quick Action Buttons */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .btn-quick {
+      padding: 12px;
+      border-radius: 14px;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn-quick:active {
+      transform: scale(0.97);
+    }
+
+    .btn-quick-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+    }
+
+    .btn-quick-secondary {
+      background: rgba(37, 99, 235, 0.12);
+      color: var(--electric-blue);
+    }
+
+    /* Stat Grid */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .stat-icon-wrapper {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .stat-count {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Section Header */
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-link {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Task Item Card */
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      margin-bottom: 10px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .task-checkbox {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+      background: none;
+    }
+
+    .task-checkbox.completed {
+      background: var(--mint);
+      border-color: var(--mint);
+      color: white;
+    }
+
+    .task-body {
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .task-tags {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .tag-subject {
+      background: var(--primary-bg);
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .tag-priority {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 20px;
+    }
+
+    .priority-high {
+      background: var(--coral-bg);
+      color: var(--coral);
+    }
+
+    .priority-medium {
+      background: var(--amber-bg);
+      color: var(--amber);
+    }
+
+    .priority-low {
+      background: rgba(37, 99, 235, 0.12);
+      color: var(--electric-blue);
+    }
+
+    .tag-overdue {
+      background: var(--coral-bg);
+      color: var(--coral);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .task-title {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 3px;
+    }
+
+    .task-title.completed {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .task-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .task-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .task-del-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 14px;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    .task-del-btn:hover {
+      color: var(--coral);
+      opacity: 1;
+    }
+
+    /* Timetable Class Card */
+    .class-item {
+      display: flex;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .class-accent-strip {
+      width: 6px;
+      flex-shrink: 0;
+    }
+
+    .class-content {
+      flex: 1;
+      padding: 14px;
+    }
+
+    .class-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .class-time {
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .class-now-badge {
+      background: var(--mint-bg);
+      color: var(--mint);
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 20px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .class-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .class-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Day Selector Bar */
+    .day-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .day-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .day-pill {
+      min-width: 44px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--segment-bg);
+      color: var(--text-secondary);
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .day-pill.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+    }
+
+    .day-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: currentColor;
+      margin-top: 3px;
+    }
+
+    /* Conflict Warning Banner */
+    .conflict-alert {
+      background: var(--amber-bg);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+      color: var(--amber);
+    }
+
+    .conflict-alert-title {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .conflict-alert-desc {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Progress Charts */
+    .device-shell.mac-mode .progress-charts-desktop {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Filters / Segment Control */
+    .segment-bar {
+      display: flex;
+      background: var(--segment-bg);
+      border-radius: 10px;
+      padding: 3px;
+      margin-bottom: 12px;
+    }
+
+    .segment-btn {
+      flex: 1;
+      padding: 6px 0;
+      border: none;
+      background: none;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .segment-btn.active {
+      background: var(--segment-active);
+      color: var(--text-main);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+      font-weight: 700;
+    }
+
+    /* Search Box */
+    .search-box {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      font-size: 13px;
+      margin-bottom: 12px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .search-box:focus {
+      border-color: var(--primary);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-icon {
+      font-size: 44px;
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+
+    .empty-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .empty-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      max-width: 260px;
+      margin: 0 auto 14px auto;
+    }
+
+    /* Bottom Tab Bar (iPhone only) */
+    .tab-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: var(--tab-bar-bg);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 6px 8px 16px 8px;
+      z-index: 80;
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      width: 58px;
+      transition: color 0.15s ease;
+    }
+
+    .tab-item.active {
+      color: var(--primary);
+    }
+
+    .tab-icon {
+      font-size: 20px;
+    }
+
+    .tab-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: -0.1px;
+    }
+
+    /* Home Indicator (iPhone only) */
+    .home-indicator {
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 134px;
+      height: 4px;
+      background: var(--text-main);
+      opacity: 0.3;
+      border-radius: 10px;
+      z-index: 95;
+    }
+
+    /* Modal Sheet */
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 120;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 480px;
+      max-height: 85%;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes scaleUp {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .sheet-title {
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+    }
+
+    .form-textarea {
+      min-height: 64px;
+      resize: vertical;
+    }
+
+    .color-picker-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .color-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.15s;
+    }
+
+    .color-swatch.selected {
+      border-color: white;
+      box-shadow: 0 0 0 2px var(--primary);
+      transform: scale(1.1);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-cancel {
+      width: 100%;
+      padding: 10px;
+      background: none;
+      color: var(--text-secondary);
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    /* Notification Banner */
+    .ios-notification {
+      position: absolute;
+      top: 54px;
+      left: 12px;
+      right: 12px;
+      max-width: 420px;
+      margin: 0 auto;
+      background: rgba(30, 41, 59, 0.95);
+      backdrop-filter: blur(20px);
+      color: white;
+      border-radius: 18px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      z-index: 150;
+      transform: translateY(-150px);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .ios-notification.visible {
+      transform: translateY(0);
+    }
+
+    .notif-icon {
+      font-size: 24px;
+    }
+
+    .notif-title {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .notif-body {
+      font-size: 11px;
+      color: #94A3B8;
+      margin-top: 2px;
+    }
+
+    /* Code Modal */
+    .code-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .code-modal-overlay.active {
+      display: flex;
+    }
+
+    .code-modal {
+      width: 100%;
+      max-width: 860px;
+      height: 85vh;
+      background: #0B0F19;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .code-modal-header {
+      padding: 14px 20px;
+      background: #161F30;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .code-files-list {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 8px 16px;
+      background: #0F172A;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .code-file-tab {
+      background: #1E293B;
+      color: #94A3B8;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .code-file-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .code-viewer {
+      flex: 1;
+      padding: 16px;
+      overflow: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #E2E8F0;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Host Banner -->
+  <header class="host-banner">
+    <div class="banner-brand">
+      <span class="banner-badge">Universal Apple Platform</span>
+      <div>
+        <h1 class="banner-title" style="font-size: 15px; margin: 0;">Smart Student Planner (Universal Preview)</h1>
+        <p class="banner-subtitle">Native Swift 5.9+ • SwiftUI &amp; SwiftData • iPhone, iPad &amp; Mac Laptop</p>
+      </div>
+    </div>
+
+    <div class="banner-actions">
+      <!-- Device Switcher: iPhone vs MacBook -->
+      <div class="device-switcher">
+        <button class="btn-device" id="btnDevicePhone" onclick="setDeviceMode('phone')">📱 iPhone</button>
+        <button class="btn-device active" id="btnDeviceMac" onclick="setDeviceMode('mac')">💻 MacBook</button>
+      </div>
+
+      <button class="btn-action" id="toggleThemeBtn" onclick="toggleTheme()">🌓 Theme</button>
+      <button class="btn-action" onclick="seedSampleData()">🔄 Seed Data</button>
+      <button class="btn-action active" onclick="openCodeModal()">💻 View Swift Code</button>
+    </div>
+  </header>
+
+  <!-- Simulator Container -->
+  <main class="simulator-container">
+    <div class="device-shell mac-mode" id="deviceShell">
+
+      <!-- macOS Titlebar (Shown in Mac Mode) -->
+      <div class="mac-titlebar">
+        <div class="traffic-lights">
+          <div class="traffic-dot traffic-close"></div>
+          <div class="traffic-dot traffic-min"></div>
+          <div class="traffic-dot traffic-max"></div>
+        </div>
+        <div class="mac-titlebar-text">
+          <span>🎓</span> Smart Student Planner — Academic Workspace
+        </div>
+      </div>
+
+      <!-- iPhone Dynamic Island (Shown in Phone Mode) -->
+      <div class="dynamic-island" id="dynamicIsland" onclick="toggleIsland()">
+        <div class="island-camera"></div>
+        <div class="island-content">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span>🎓</span>
+            <div>
+              <div style="font-weight:700; font-size:11px;">Next Lecture</div>
+              <div id="islandNextClass" style="color:#94A3B8; font-size:10px;">Operating Systems • 09:00 AM</div>
+            </div>
+          </div>
+          <div style="color:var(--mint); font-weight:700; font-size:11px;">In 35m</div>
+        </div>
+        <div class="island-sensor"></div>
+      </div>
+
+      <!-- iOS Status Bar (Shown in Phone Mode) -->
+      <div class="status-bar">
+        <span class="status-time" id="statusClock">09:41</span>
+        <div class="status-icons">
+          <span>􀙇</span>
+          <span>􀐫</span>
+          <span>􀛨</span>
+        </div>
+      </div>
+
+      <!-- Local Notification Toast -->
+      <div class="ios-notification" id="iosNotification">
+        <div class="notif-icon">🔔</div>
+        <div>
+          <div class="notif-title" id="notifTitle">Assignment Due Soon</div>
+          <div class="notif-body" id="notifBody">SwiftData & SwiftUI iOS Lab Report is due tomorrow at 5:00 PM!</div>
+        </div>
+      </div>
+
+      <!-- Split Layout Container (Mac Sidebar + App Screen) -->
+      <div class="mac-split-layout">
+
+        <!-- macOS Left Sidebar (Shown in Mac Mode) -->
+        <aside class="mac-sidebar">
+          <div class="mac-sidebar-header">
+            <div class="mac-brand-icon">🎓</div>
+            <div>
+              <div style="font-size:13px; font-weight:800;">Student Planner</div>
+              <div style="font-size:10px; color:var(--text-secondary);">Mac Academic Edition</div>
+            </div>
+          </div>
+
+          <div class="mac-sidebar-section">Workspace</div>
+          <button class="mac-nav-item active" onclick="switchTab(0, this)">
+            <div class="mac-nav-left"><span>🏠</span> Home Dashboard</div>
+            <span style="font-size:11px; opacity:0.6;">⌘1</span>
+          </button>
+          <button class="mac-nav-item" onclick="switchTab(1, this)">
+            <div class="mac-nav-left"><span>☑️</span> Tasks &amp; Deadlines</div>
+            <span class="mac-badge" id="macPendingCountBadge">2</span>
+          </button>
+          <button class="mac-nav-item" onclick="switchTab(2, this)">
+            <div class="mac-nav-left"><span>📅</span> Class Timetable</div>
+            <span class="mac-badge" style="background:var(--primary-bg); color:var(--primary);" id="macTodayClassBadge">2 today</span>
+          </button>
+          <button class="mac-nav-item" onclick="switchTab(3, this)">
+            <div class="mac-nav-left"><span>📊</span> Academic Progress</div>
+            <span style="font-size:11px; opacity:0.6;">⌘4</span>
+          </button>
+
+          <div class="mac-sidebar-section">Preferences</div>
+          <button class="mac-nav-item" onclick="switchTab(4, this)">
+            <div class="mac-nav-left"><span>⚙️</span> Settings</div>
+            <span style="font-size:11px; opacity:0.6;">⌘5</span>
+          </button>
+
+          <div class="mac-sidebar-footer">
+            <button class="btn-quick btn-quick-primary" onclick="openAddTaskModal()">
+              <span>➕</span> New Task (⌘N)
+            </button>
+            <button class="btn-quick btn-quick-secondary" onclick="openAddClassModal()">
+              <span>📅</span> New Class
+            </button>
+          </div>
+        </aside>
+
+        <!-- Main App Screen Viewport -->
+        <div class="app-screen" id="appScreen">
+
+          <!-- TAB 1: HOME DASHBOARD -->
+          <div class="tab-panel active" id="tab-dashboard">
+            <div class="mac-dashboard-grid">
+              
+              <!-- Left Column on Mac -->
+              <div>
+                <div class="greeting-widget">
+                  <div>
+                    <div class="date-badge" id="dashDateBadge">Thursday, Oct 9</div>
+                    <div class="greeting-text" id="dashGreeting">Good Evening, Scholar!</div>
+                    <div class="sub-greeting">Here is your academic overview for today.</div>
+                  </div>
+                  <div class="student-avatar">🎓</div>
+                </div>
+
+                <!-- Daily Progress Card -->
+                <div class="progress-card">
+                  <div class="progress-header">
+                    <div>
+                      <div class="progress-title">Daily Task Progress</div>
+                      <div class="progress-sub" id="dashProgressSub">3 of 5 tasks done</div>
+                    </div>
+                    <div class="progress-val" id="dashProgressPercent">60%</div>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill" id="dashProgressBar" style="width: 60%;"></div>
+                  </div>
+                </div>
+
+                <!-- Today's Classes -->
+                <div class="section-head" style="margin-top: 16px;">
+                  <div class="section-title"><span>🕒</span> Today's Classes (<span id="dashTodayWeekdayName">Mon</span>)</div>
+                  <button class="section-link" onclick="switchTab(2)">Timetable</button>
+                </div>
+                <div id="dashTodayClassesContainer"></div>
+              </div>
+
+              <!-- Right Column on Mac -->
+              <div>
+                <!-- Quick Actions (iPhone visible / Mac companion) -->
+                <div class="quick-actions" id="dashQuickActions">
+                  <button class="btn-quick btn-quick-primary" onclick="openAddTaskModal()">
+                    <span>➕</span> Add Task
+                  </button>
+                  <button class="btn-quick btn-quick-secondary" onclick="openAddClassModal()">
+                    <span>📅</span> Add Class
+                  </button>
+                </div>
+
+                <!-- Stat Cards -->
+                <div class="stat-grid">
+                  <div class="stat-card">
+                    <div class="stat-icon-wrapper" style="background: var(--amber-bg); color: var(--amber);">⏳</div>
+                    <div class="stat-count" id="statPendingCount">2</div>
+                    <div class="stat-label">Pending Tasks</div>
+                    <div class="stat-sub" id="statOverdueLabel" style="color: var(--coral);">1 Overdue</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-icon-wrapper" style="background: var(--mint-bg); color: var(--mint);">✅</div>
+                    <div class="stat-count" id="statCompletedCount">3</div>
+                    <div class="stat-label">Completed Tasks</div>
+                    <div class="stat-sub" id="statTotalLabel" style="color: var(--primary);">Total: 5</div>
+                  </div>
+                </div>
+
+                <!-- Upcoming Deadlines -->
+                <div class="section-head">
+                  <div class="section-title"><span>📋</span> Upcoming Deadlines</div>
+                  <button class="section-link" onclick="switchTab(1)">See All</button>
+                </div>
+                <div id="dashUpcomingTasksContainer"></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- TAB 2: TASKS & ASSIGNMENTS -->
+          <div class="tab-panel" id="tab-tasks">
+            <div class="nav-header">
+              <div class="nav-title">Tasks &amp; Deadlines</div>
+              <div class="nav-actions">
+                <button class="icon-btn" onclick="openAddTaskModal()" title="Add Task (⌘N)">➕</button>
+              </div>
+            </div>
+
+            <!-- Search -->
+            <input type="text" class="search-box" id="taskSearchInput" placeholder="Search title or subject..." oninput="renderTasks()">
+
+            <!-- Segment Filters -->
+            <div class="segment-bar">
+              <button class="segment-btn active" onclick="setTaskFilter('all', this)">All</button>
+              <button class="segment-btn" onclick="setTaskFilter('pending', this)">Pending</button>
+              <button class="segment-btn" onclick="setTaskFilter('completed', this)">Completed</button>
+              <button class="segment-btn" onclick="setTaskFilter('overdue', this)">Overdue</button>
+            </div>
+
+            <div id="tasksListContainer"></div>
+          </div>
+
+          <!-- TAB 3: TIMETABLE -->
+          <div class="tab-panel" id="tab-timetable">
+            <div class="nav-header">
+              <div class="nav-title">Class Timetable</div>
+              <div class="nav-actions">
+                <button class="icon-btn" onclick="openAddClassModal()">➕</button>
+              </div>
+            </div>
+
+            <!-- Day Selector Bar -->
+            <div class="day-bar" id="dayPillBar"></div>
+
+            <!-- Conflict Warning Alert (Dynamically Shown) -->
+            <div id="conflictAlertBanner" style="display:none;" class="conflict-alert">
+              <span style="font-size:18px;">⚠️</span>
+              <div>
+                <div class="conflict-alert-title">Timetable Conflict Detected!</div>
+                <div class="conflict-alert-desc" id="conflictAlertText">Two classes overlap in time on this day.</div>
+              </div>
+            </div>
+
+            <!-- Classes List -->
+            <div id="timetableListContainer"></div>
+          </div>
+
+          <!-- TAB 4: PROGRESS & CHARTS -->
+          <div class="tab-panel" id="tab-progress">
+            <div class="nav-header">
+              <div class="nav-title">Academic Progress</div>
+            </div>
+
+            <!-- Circular Completion Card -->
+            <div class="card" style="display: flex; align-items: center; gap: 16px;">
+              <svg width="84" height="84" viewBox="0 0 36 36">
+                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(148, 163, 184, 0.2)" stroke-width="3.5" />
+                <path id="progressCircleSvg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="var(--primary)" stroke-dasharray="60, 100" stroke-width="3.5" stroke-linecap="round" />
+                <text x="18" y="20.5" text-anchor="middle" font-size="7.5" font-weight="800" fill="currentColor" id="progressCircleText">60%</text>
+              </svg>
+              <div>
+                <div style="font-size: 15px; font-weight: 800;">Overall Completion</div>
+                <div style="font-size: 12px; color: var(--text-secondary);" id="progressSummaryText">3 of 5 finished</div>
+                <div style="font-size: 11px; color: var(--primary); font-weight: 600; margin-top: 4px;">Superb consistency! 🎓</div>
+              </div>
+            </div>
+
+            <!-- Swift Charts Simulation (Dual-column on Mac) -->
+            <div class="progress-charts-desktop">
+              <div class="card">
+                <div style="font-size: 14px; font-weight: 700; margin-bottom: 12px; display:flex; align-items:center; gap:6px;">
+                  <span>📊</span> Task Status Breakdown (Swift Charts)
+                </div>
+                <div class="chart-container" id="donutChartContainer"></div>
+              </div>
+
+              <div class="card">
+                <div style="font-size: 14px; font-weight: 700; margin-bottom: 12px; display:flex; align-items:center; gap:6px;">
+                  <span>📈</span> Subject Workload Distribution
+                </div>
+                <div id="subjectBarChartContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 5: SETTINGS -->
+          <div class="tab-panel" id="tab-settings">
+            <div class="nav-header">
+              <div class="nav-title">Settings</div>
+            </div>
+
+            <div class="card">
+              <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 10px;">Appearance</div>
+              <div class="segment-bar">
+                <button class="segment-btn active" id="themeSysBtn" onclick="setAppTheme('system')">System</button>
+                <button class="segment-btn" id="themeLightBtn" onclick="setAppTheme('light')">Light</button>
+                <button class="segment-btn" id="themeDarkBtn" onclick="setAppTheme('dark')">Dark</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 10px;">Notifications (UserNotifications)</div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-size: 13px; font-weight: 600;">Status</span>
+                <span style="background: var(--mint-bg); color: var(--mint); padding: 3px 8px; border-radius: 20px; font-size: 11px; font-weight: 700;">Authorized</span>
+              </div>
+              <button class="btn-quick btn-quick-secondary" style="width: 100%;" onclick="triggerSimulatedNotification()">
+                ✈️ Send Test Reminder (5s Delay)
+              </button>
+            </div>
+
+            <div class="card">
+              <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 10px;">Database Operations (SwiftData)</div>
+              <button class="btn-quick btn-quick-primary" style="width: 100%; margin-bottom: 8px;" onclick="seedSampleData()">
+                🔄 Reload College Demo Data
+              </button>
+              <button class="btn-quick" style="width: 100%; background: var(--coral-bg); color: var(--coral);" onclick="clearAllData()">
+                🗑️ Clear All Application Data
+              </button>
+            </div>
+
+            <div class="card">
+              <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 8px;">About Project</div>
+              <div style="font-size: 13px; display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="color:var(--text-secondary);">Application</span>
+                <span style="font-weight:700;">Smart Student Planner</span>
+              </div>
+              <div style="font-size: 13px; display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="color:var(--text-secondary);">Platforms</span>
+                <span style="font-weight:700;">iOS 17+ &amp; macOS (Universal)</span>
+              </div>
+              <div style="font-size: 13px; display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="color:var(--text-secondary);">Architecture</span>
+                <span style="font-weight:700;">SwiftUI + SwiftData + SidebarSplit</span>
+              </div>
+              <div style="font-size: 13px; display: flex; justify-content: space-between;">
+                <span style="color:var(--text-secondary);">Build Version</span>
+                <span style="font-weight:700;">1.0.0 (Build 1)</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- iPhone Bottom Tab Bar (Shown only in iPhone Mode) -->
+      <nav class="tab-bar">
+        <button class="tab-item active" onclick="switchTab(0, this)">
+          <span class="tab-icon">🏠</span>
+          <span class="tab-label">Home</span>
+        </button>
+        <button class="tab-item" onclick="switchTab(1, this)">
+          <span class="tab-icon">☑️</span>
+          <span class="tab-label">Tasks</span>
+        </button>
+        <button class="tab-item" onclick="switchTab(2, this)">
+          <span class="tab-icon">📅</span>
+          <span class="tab-label">Timetable</span>
+        </button>
+        <button class="tab-item" onclick="switchTab(3, this)">
+          <span class="tab-icon">📊</span>
+          <span class="tab-label">Progress</span>
+        </button>
+        <button class="tab-item" onclick="switchTab(4, this)">
+          <span class="tab-icon">⚙️</span>
+          <span class="tab-label">Settings</span>
+        </button>
+      </nav>
+
+      <!-- Bottom Home Indicator (iPhone only) -->
+      <div class="home-indicator"></div>
+
+      <!-- ADD TASK MODAL -->
+      <div class="modal-overlay" id="taskModalOverlay" onclick="closeModalsOnBg(event, 'taskModalOverlay')">
+        <div class="modal-sheet">
+          <div class="sheet-header">
+            <h2 class="sheet-title" id="taskModalTitle" style="margin: 0;">New Task</h2>
+            <button class="icon-btn" onclick="closeTaskModal()">✕</button>
+          </div>
+          <form onsubmit="handleTaskSubmit(event)">
+            <input type="hidden" id="taskFormId">
+            <div class="form-group">
+              <label class="form-label">Task Title *</label>
+              <input type="text" class="form-input" id="taskFormTitle" placeholder="e.g. Lab Report 4" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Subject / Course *</label>
+              <input type="text" class="form-input" id="taskFormSubject" placeholder="e.g. Operating Systems" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <div class="segment-bar">
+                <button type="button" class="segment-btn" id="prioLowBtn" onclick="selectPriority('Low')">Low</button>
+                <button type="button" class="segment-btn active" id="prioMedBtn" onclick="selectPriority('Medium')">Medium</button>
+                <button type="button" class="segment-btn" id="prioHighBtn" onclick="selectPriority('High')">High</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Due Date</label>
+              <input type="date" class="form-input" id="taskFormDate" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description (Optional)</label>
+              <textarea class="form-input form-textarea" id="taskFormDesc" placeholder="Notes or instructions..."></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Save Task</button>
+            <button type="button" class="btn-cancel" onclick="closeTaskModal()">Cancel</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ADD CLASS MODAL -->
+      <div class="modal-overlay" id="classModalOverlay" onclick="closeModalsOnBg(event, 'classModalOverlay')">
+        <div class="modal-sheet">
+          <div class="sheet-header">
+            <h2 class="sheet-title" style="margin: 0;">Add Class Session</h2>
+            <button class="icon-btn" onclick="closeClassModal()">✕</button>
+          </div>
+          <form onsubmit="handleClassSubmit(event)">
+            <div class="form-group">
+              <label class="form-label">Subject Name *</label>
+              <input type="text" class="form-input" id="classFormSubject" placeholder="e.g. Computer Networks" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Classroom / Room Number *</label>
+              <input type="text" class="form-input" id="classFormRoom" placeholder="e.g. LH-101" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Teacher / Instructor</label>
+              <input type="text" class="form-input" id="classFormTeacher" placeholder="e.g. Dr. Sharma">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Weekday</label>
+              <select class="form-input" id="classFormWeekday">
+                <option value="2">Monday</option>
+                <option value="3">Tuesday</option>
+                <option value="4">Wednesday</option>
+                <option value="5">Thursday</option>
+                <option value="6">Friday</option>
+                <option value="7">Saturday</option>
+                <option value="1">Sunday</option>
+              </select>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+              <div class="form-group">
+                <label class="form-label">Start Time *</label>
+                <input type="time" class="form-input" id="classFormStart" value="09:00" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">End Time *</label>
+                <input type="time" class="form-input" id="classFormEnd" value="10:30" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Color Accent</label>
+              <div class="color-picker-row" id="colorPickerRow"></div>
+            </div>
+            <button type="submit" class="btn-submit">Add Class</button>
+            <button type="button" class="btn-cancel" onclick="closeClassModal()">Cancel</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- CODE INSPECTOR MODAL -->
+  <div class="code-modal-overlay" id="codeModalOverlay">
+    <div class="code-modal">
+      <div class="code-modal-header">
+        <div style="font-weight: 700; font-size: 14px; color: white;">Native Swift &amp; SwiftUI Source Viewer</div>
+        <button class="icon-btn" style="color: white;" onclick="closeCodeModal()">✕</button>
+      </div>
+      <div class="code-files-list" id="codeTabs">
+        <button class="code-file-tab active" onclick="loadSwiftFile('MainTabView.swift')">MainTabView.swift (Sidebar)</button>
+        <button class="code-file-tab" onclick="loadSwiftFile('DashboardView.swift')">DashboardView.swift</button>
+        <button class="code-file-tab" onclick="loadSwiftFile('StudyTask.swift')">StudyTask.swift</button>
+        <button class="code-file-tab" onclick="loadSwiftFile('ClassSession.swift')">ClassSession.swift</button>
+        <button class="code-file-tab" onclick="loadSwiftFile('NotificationManager.swift')">NotificationManager.swift</button>
+        <button class="code-file-tab" onclick="loadSwiftFile('TimetableView.swift')">TimetableView.swift</button>
+        <button class="code-file-tab" onclick="loadSwiftFile('ProgressTrackerView.swift')">ProgressTrackerView.swift</button>
+        <button class="code-file-tab" onclick="loadSwiftFile('SmartStudentPlannerApp.swift')">SmartStudentPlannerApp.swift</button>
+      </div>
+      <pre class="code-viewer" id="codeContentDisplay">// Select a file to view source...</pre>
+    </div>
+  </div>
+
+  <script>
+    // --- STATE MANAGEMENT ---
+    const STORAGE_KEY_TASKS = "ssp_study_tasks";
+    const STORAGE_KEY_CLASSES = "ssp_class_sessions";
+    const STORAGE_KEY_THEME = "ssp_app_theme";
+    const STORAGE_KEY_DEVICE = "ssp_device_mode";
+
+    const WEEKDAYS = [
+      { id: 2, name: "Monday", short: "Mon" },
+      { id: 3, name: "Tuesday", short: "Tue" },
+      { id: 4, name: "Wednesday", short: "Wed" },
+      { id: 5, name: "Thursday", short: "Thu" },
+      { id: 6, name: "Friday", short: "Fri" },
+      { id: 7, name: "Saturday", short: "Sat" },
+      { id: 1, name: "Sunday", short: "Sun" }
+    ];
+
+    const CLASS_COLORS = ["#4F46E5", "#2563EB", "#0D9488", "#059669", "#7C3AED", "#DB2777", "#D97706", "#EF4444"];
+
+    let selectedWeekdayId = 2; // Monday default
+    let selectedTaskFilter = 'all';
+    let currentPriority = 'Medium';
+    let selectedColorHex = '#4F46E5';
+    let currentTabIdx = 0;
+
+    function initializeData() {
+      // Set saved device mode or default to Mac
+      const savedDevice = localStorage.getItem(STORAGE_KEY_DEVICE) || 'mac';
+      setDeviceMode(savedDevice);
+
+      if (!localStorage.getItem(STORAGE_KEY_TASKS)) {
+        seedSampleData();
+      } else {
+        renderAll();
+      }
+    }
+
+    function getTasks() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY_TASKS) || "[]");
+    }
+
+    function saveTasks(tasks) {
+      localStorage.setItem(STORAGE_KEY_TASKS, JSON.stringify(tasks));
+      renderAll();
+    }
+
+    function getClasses() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY_CLASSES) || "[]");
+    }
+
+    function saveClasses(classes) {
+      localStorage.setItem(STORAGE_KEY_CLASSES, JSON.stringify(classes));
+      renderAll();
+    }
+
+    function seedSampleData() {
+      const today = new Date();
+      const tomorrow = new Date(Date.now() + 86400000);
+      const yesterday = new Date(Date.now() - 86400000);
+      const in3Days = new Date(Date.now() + 86400000 * 3);
+      const in5Days = new Date(Date.now() + 86400000 * 5);
+
+      const tasks = [
+        {
+          id: "task-1",
+          title: "SwiftData & SwiftUI iOS Lab Report",
+          subject: "Mobile Computing",
+          priority: "High",
+          dueDate: tomorrow.toISOString().split("T")[0],
+          description: "Document architecture, data models, and screenshots of the Smart Student Planner app.",
+          isCompleted: false
+        },
+        {
+          id: "task-2",
+          title: "Process Scheduling Simulation Report",
+          subject: "Operating Systems",
+          priority: "High",
+          dueDate: yesterday.toISOString().split("T")[0],
+          description: "Compare turnaround time for FCFS, Round Robin, and Shortest Job First algorithms.",
+          isCompleted: false
+        },
+        {
+          id: "task-3",
+          title: "Socket Programming Client-Server Lab",
+          subject: "Computer Networks",
+          priority: "Medium",
+          dueDate: in3Days.toISOString().split("T")[0],
+          description: "Implement multi-threaded TCP chat server in C++ and test packet loss handling.",
+          isCompleted: false
+        },
+        {
+          id: "task-4",
+          title: "Database Normalization (3NF & BCNF)",
+          subject: "Database Systems",
+          priority: "Medium",
+          dueDate: yesterday.toISOString().split("T")[0],
+          description: "Decompose university registration schema to eliminate transitive dependencies.",
+          isCompleted: true
+        },
+        {
+          id: "task-5",
+          title: "Agile Sprint Backlog Presentation",
+          subject: "Software Engineering",
+          priority: "Low",
+          dueDate: in5Days.toISOString().split("T")[0],
+          description: "Prepare slide deck summarizing user stories, velocity chart, and sprint burndown.",
+          isCompleted: false
+        }
+      ];
+
+      const classes = [
+        { id: "c-1", subject: "Operating Systems", room: "LH-101", teacher: "Dr. A. Sharma", weekday: 2, start: "09:00", end: "10:30", color: "#4F46E5" },
+        { id: "c-2", subject: "Mobile Application Dev", room: "CS-Lab 2", teacher: "Prof. K. Rao", weekday: 2, start: "11:00", end: "12:30", color: "#2563EB" },
+        { id: "c-3", subject: "Computer Networks", room: "LH-104", teacher: "Dr. P. Mehta", weekday: 3, start: "10:00", end: "11:30", color: "#0D9488" },
+        { id: "c-4", subject: "Database Systems", room: "DB-Lab", teacher: "Prof. S. Gupta", weekday: 4, start: "09:30", end: "11:00", color: "#059669" },
+        { id: "c-5", subject: "Software Engineering", room: "LH-203", teacher: "Prof. R. Verma", weekday: 5, start: "14:00", end: "15:30", color: "#7C3AED" },
+        { id: "c-6", subject: "Mobile App Practicum", room: "CS-Lab 1", teacher: "Prof. K. Rao", weekday: 6, start: "10:00", end: "13:00", color: "#DB2777" }
+      ];
+
+      localStorage.setItem(STORAGE_KEY_TASKS, JSON.stringify(tasks));
+      localStorage.setItem(STORAGE_KEY_CLASSES, JSON.stringify(classes));
+      renderAll();
+      showNotification("College Dataset Loaded", "Preloaded academic courses, assignments, and timetable.");
+    }
+
+    function clearAllData() {
+      if (confirm("Are you sure you want to delete all tasks and classes?")) {
+        localStorage.setItem(STORAGE_KEY_TASKS, "[]");
+        localStorage.setItem(STORAGE_KEY_CLASSES, "[]");
+        renderAll();
+        showNotification("Data Cleared", "All application data deleted from local storage.");
+      }
+    }
+
+    // --- RENDER PIPELINE ---
+    function renderAll() {
+      renderDashboard();
+      renderTasks();
+      renderTimetable();
+      renderProgress();
+      updateSidebarBadges();
+      updateClock();
+    }
+
+    function updateSidebarBadges() {
+      const tasks = getTasks();
+      const classes = getClasses();
+      const pending = tasks.filter(t => !t.isCompleted).length;
+      const todayWeekday = new Date().getDay() + 1;
+      const todayCount = classes.filter(c => c.weekday === todayWeekday).length;
+
+      const pBadge = document.getElementById("macPendingCountBadge");
+      if (pBadge) pBadge.innerText = pending;
+
+      const cBadge = document.getElementById("macTodayClassBadge");
+      if (cBadge) cBadge.innerText = `${todayCount} today`;
+    }
+
+    // 1. Dashboard View
+    function renderDashboard() {
+      const tasks = getTasks();
+      const classes = getClasses();
+
+      const total = tasks.length;
+      const completed = tasks.filter(t => t.isCompleted).length;
+      const pending = tasks.filter(t => !t.isCompleted).length;
+      const todayStr = new Date().toISOString().split("T")[0];
+      const overdue = tasks.filter(t => !t.isCompleted && t.dueDate < todayStr).length;
+
+      const rate = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+      document.getElementById("dashProgressPercent").innerText = rate + "%";
+      document.getElementById("dashProgressBar").style.width = rate + "%";
+      document.getElementById("dashProgressSub").innerText = `${completed} of ${total} tasks done`;
+
+      document.getElementById("statPendingCount").innerText = pending;
+      document.getElementById("statCompletedCount").innerText = completed;
+      document.getElementById("statOverdueLabel").innerText = overdue > 0 ? `${overdue} Overdue` : "On Schedule";
+      document.getElementById("statTotalLabel").innerText = `Total: ${total}`;
+
+      // Today's classes
+      const todayWeekday = new Date().getDay() + 1;
+      const weekdayObj = WEEKDAYS.find(w => w.id === todayWeekday) || WEEKDAYS[0];
+      document.getElementById("dashTodayWeekdayName").innerText = weekdayObj.short;
+
+      const todayClasses = classes.filter(c => c.weekday === todayWeekday).sort((a,b) => a.start.localeCompare(b.start));
+      const todayContainer = document.getElementById("dashTodayClassesContainer");
+
+      if (todayClasses.length === 0) {
+        todayContainer.innerHTML = `
+          <div class="card" style="display:flex; align-items:center; gap:12px; margin-bottom:0;">
+            <div style="font-size:24px;">☀️</div>
+            <div>
+              <div style="font-weight:700; font-size:13px;">No Classes Today</div>
+              <div style="font-size:11px; color:var(--text-secondary);">Enjoy your free study day or work on upcoming projects.</div>
+            </div>
+          </div>
+        `;
+      } else {
+        todayContainer.innerHTML = todayClasses.map(c => `
+          <div class="class-item">
+            <div class="class-accent-strip" style="background:${c.color};"></div>
+            <div class="class-content">
+              <div class="class-top-row">
+                <div class="class-time" style="color:${c.color};">⏰ ${c.start} - ${c.end}</div>
+                <div class="class-now-badge">SCHEDULED</div>
+              </div>
+              <div class="class-title">${escapeHtml(c.subject)}</div>
+              <div class="class-meta">
+                <span>📍 ${escapeHtml(c.room)}</span>
+                <span>👤 ${escapeHtml(c.teacher || 'Faculty')}</span>
+              </div>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // Upcoming Deadlines (up to 4)
+      const upcoming = tasks.filter(t => !t.isCompleted).slice(0, 4);
+      const upcomingContainer = document.getElementById("dashUpcomingTasksContainer");
+
+      if (upcoming.length === 0) {
+        upcomingContainer.innerHTML = `
+          <div class="card" style="display:flex; align-items:center; gap:12px; margin-bottom:0;">
+            <div style="font-size:24px;">🎉</div>
+            <div>
+              <div style="font-weight:700; font-size:13px;">All Caught Up!</div>
+              <div style="font-size:11px; color:var(--text-secondary);">No pending assignments. Tap '+ Add Task' to plan ahead.</div>
+            </div>
+          </div>
+        `;
+      } else {
+        upcomingContainer.innerHTML = upcoming.map(t => renderTaskCardHtml(t)).join("");
+      }
+    }
+
+    // 2. Tasks View
+    function renderTasks() {
+      const tasks = getTasks();
+      const query = (document.getElementById("taskSearchInput").value || "").toLowerCase().trim();
+      const todayStr = new Date().toISOString().split("T")[0];
+
+      let filtered = tasks.filter(t => {
+        if (query) {
+          const matchTitle = t.title.toLowerCase().includes(query);
+          const matchSub = t.subject.toLowerCase().includes(query);
+          if (!matchTitle && !matchSub) return false;
+        }
+        if (selectedTaskFilter === 'pending') return !t.isCompleted;
+        if (selectedTaskFilter === 'completed') return t.isCompleted;
+        if (selectedTaskFilter === 'overdue') return !t.isCompleted && t.dueDate < todayStr;
+        return true;
+      });
+
+      const container = document.getElementById("tasksListContainer");
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">📋</div>
+            <div class="empty-title">No Matching Tasks</div>
+            <div class="empty-desc">No assignments found for the current search or filter option.</div>
+          </div>
+        `;
+      } else {
+        container.innerHTML = filtered.map(t => renderTaskCardHtml(t)).join("");
+      }
+    }
+
+    function renderTaskCardHtml(t) {
+      const todayStr = new Date().toISOString().split("T")[0];
+      const isOverdue = !t.isCompleted && t.dueDate < todayStr;
+      const prioClass = t.priority === 'High' ? 'priority-high' : (t.priority === 'Medium' ? 'priority-medium' : 'priority-low');
+
+      return `
+        <div class="task-item" id="task-${t.id}">
+          <button class="task-checkbox ${t.isCompleted ? 'completed' : ''}" onclick="toggleTask('${t.id}')">
+            ${t.isCompleted ? '✓' : ''}
+          </button>
+          <div class="task-body" onclick="editTask('${t.id}')">
+            <div class="task-tags">
+              <span class="tag-subject">${escapeHtml(t.subject)}</span>
+              <span class="tag-priority ${prioClass}">${t.priority}</span>
+              ${isOverdue ? '<span class="tag-overdue">⚠️ Overdue</span>' : ''}
+            </div>
+            <div class="task-title ${t.isCompleted ? 'completed' : ''}">${escapeHtml(t.title)}</div>
+            ${t.description ? `<div class="task-desc">${escapeHtml(t.description)}</div>` : ''}
+            <div class="task-footer">
+              <span>📅 Due ${t.dueDate}</span>
+            </div>
+          </div>
+          <button class="task-del-btn" title="Delete Task" onclick="deleteTask('${t.id}')">🗑️</button>
+        </div>
+      `;
+    }
+
+    // 3. Timetable View & Conflict Engine
+    function renderTimetable() {
+      const dayBar = document.getElementById("dayPillBar");
+      dayBar.innerHTML = WEEKDAYS.map(w => {
+        const isActive = w.id === selectedWeekdayId;
+        return `
+          <button class="day-pill ${isActive ? 'active' : ''}" onclick="selectWeekday(${w.id})">
+            <span>${w.short}</span>
+            <span class="day-dot" style="opacity:${isActive ? 1 : 0.4};"></span>
+          </button>
+        `;
+      }).join("");
+
+      const classes = getClasses().filter(c => c.weekday === selectedWeekdayId).sort((a,b) => a.start.localeCompare(b.start));
+
+      // Overlap detection
+      let hasConflict = false;
+      let conflictMsg = "";
+      if (classes.length > 1) {
+        for (let i = 0; i < classes.length; i++) {
+          for (let j = i + 1; j < classes.length; j++) {
+            const c1 = classes[i];
+            const c2 = classes[j];
+            if (c1.start < c2.end && c2.start < c1.end) {
+              hasConflict = true;
+              conflictMsg = `Conflict detected between '${c1.subject}' (${c1.start}-${c1.end}) and '${c2.subject}' (${c2.start}-${c2.end})!`;
+              break;
+            }
+          }
+          if (hasConflict) break;
+        }
+      }
+
+      const alertBanner = document.getElementById("conflictAlertBanner");
+      if (hasConflict) {
+        alertBanner.style.display = "flex";
+        document.getElementById("conflictAlertText").innerText = conflictMsg;
+      } else {
+        alertBanner.style.display = "none";
+      }
+
+      const container = document.getElementById("timetableListContainer");
+      if (classes.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">📅</div>
+            <div class="empty-title">No Classes Scheduled</div>
+            <div class="empty-desc">No lecture or lab sessions added for this day.</div>
+          </div>
+        `;
+      } else {
+        container.innerHTML = classes.map(c => `
+          <div class="class-item">
+            <div class="class-accent-strip" style="background:${c.color};"></div>
+            <div class="class-content">
+              <div class="class-top-row">
+                <div class="class-time" style="color:${c.color};">⏰ ${c.start} - ${c.end}</div>
+                <button class="task-del-btn" style="font-size:12px;" onclick="deleteClass('${c.id}')">🗑️</button>
+              </div>
+              <div class="class-title">${escapeHtml(c.subject)}</div>
+              <div class="class-meta">
+                <span>📍 ${escapeHtml(c.room)}</span>
+                <span>👤 ${escapeHtml(c.teacher || 'Faculty')}</span>
+              </div>
+            </div>
+          </div>
+        `).join("");
+      }
+    }
+
+    // 4. Progress View
+    function renderProgress() {
+      const tasks = getTasks();
+      const total = tasks.length;
+      const completed = tasks.filter(t => t.isCompleted).length;
+      const todayStr = new Date().toISOString().split("T")[0];
+      const overdue = tasks.filter(t => !t.isCompleted && t.dueDate < todayStr).length;
+      const pending = tasks.filter(t => !t.isCompleted && t.dueDate >= todayStr).length;
+
+      const rate = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+      const circleSvg = document.getElementById("progressCircleSvg");
+      const circleText = document.getElementById("progressCircleText");
+      if (circleSvg && circleText) {
+        circleSvg.setAttribute("stroke-dasharray", `${rate}, 100`);
+        circleText.textContent = `${rate}%`;
+        document.getElementById("progressSummaryText").textContent = `${completed} of ${total} finished`;
+      }
+
+      // Donut Chart
+      const donutContainer = document.getElementById("donutChartContainer");
+      if (total === 0) {
+        donutContainer.innerHTML = `<div style="font-size:12px; color:var(--text-muted);">No task data to visualize</div>`;
+      } else {
+        donutContainer.innerHTML = `
+          <div style="display:flex; align-items:center; gap:20px;">
+            <svg width="120" height="120" viewBox="0 0 42 42">
+              <circle class="donut-ring" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--input-bg)" stroke-width="6"></circle>
+              <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--mint)" stroke-width="6" stroke-dasharray="${(completed/total)*100} ${100 - (completed/total)*100}" stroke-dashoffset="25"></circle>
+              <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--primary)" stroke-width="6" stroke-dasharray="${(pending/total)*100} ${100 - (pending/total)*100}" stroke-dashoffset="${25 - (completed/total)*100}"></circle>
+              <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--coral)" stroke-width="6" stroke-dasharray="${(overdue/total)*100} ${100 - (overdue/total)*100}" stroke-dashoffset="${25 - (completed/total)*100 - (pending/total)*100}"></circle>
+              <g class="donut-text">
+                <text x="50%" y="54%" text-anchor="middle" font-size="8" font-weight="800" fill="currentColor">${rate}%</text>
+              </g>
+            </svg>
+            <div style="font-size:11px; display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="width:8px; height:8px; border-radius:50%; background:var(--mint);"></span> Completed: <strong>${completed}</strong>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="width:8px; height:8px; border-radius:50%; background:var(--primary);"></span> Pending: <strong>${pending}</strong>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="width:8px; height:8px; border-radius:50%; background:var(--coral);"></span> Overdue: <strong>${overdue}</strong>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Subject Bar Breakdown
+      const subCounts = {};
+      tasks.forEach(t => {
+        subCounts[t.subject] = (subCounts[t.subject] || 0) + 1;
+      });
+
+      const barContainer = document.getElementById("subjectBarChartContainer");
+      const subjects = Object.keys(subCounts);
+      if (subjects.length === 0) {
+        barContainer.innerHTML = `<div style="font-size:12px; color:var(--text-muted);">No subjects found</div>`;
+      } else {
+        const maxVal = Math.max(...Object.values(subCounts), 1);
+        barContainer.innerHTML = subjects.map(sub => {
+          const count = subCounts[sub];
+          const pct = Math.round((count / maxVal) * 100);
+          return `
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:600; margin-bottom:4px;">
+                <span>${escapeHtml(sub)}</span>
+                <span>${count} tasks</span>
+              </div>
+              <div class="bar-track" style="height:8px;">
+                <div class="bar-fill" style="width:${pct}%;"></div>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+    }
+
+    // --- ACTIONS & MUTATIONS ---
+    function toggleTask(id) {
+      const tasks = getTasks();
+      const task = tasks.find(t => t.id === id);
+      if (task) {
+        task.isCompleted = !task.isCompleted;
+        saveTasks(tasks);
+        if (task.isCompleted) {
+          showNotification("Task Finished! 🎉", `'${task.title}' marked as completed.`);
+        }
+      }
+    }
+
+    function deleteTask(id) {
+      if (confirm("Delete this task?")) {
+        const tasks = getTasks().filter(t => t.id !== id);
+        saveTasks(tasks);
+      }
+    }
+
+    function deleteClass(id) {
+      if (confirm("Delete this class session?")) {
+        const classes = getClasses().filter(c => c.id !== id);
+        saveClasses(classes);
+      }
+    }
+
+    function setTaskFilter(filter, el) {
+      selectedTaskFilter = filter;
+      document.querySelectorAll('#tab-tasks .segment-btn').forEach(btn => btn.classList.remove('active'));
+      if (el) el.classList.add('active');
+      renderTasks();
+    }
+
+    function selectWeekday(id) {
+      selectedWeekdayId = id;
+      renderTimetable();
+    }
+
+    function switchTab(index, el) {
+      currentTabIdx = index;
+      const tabs = ['tab-dashboard', 'tab-tasks', 'tab-timetable', 'tab-progress', 'tab-settings'];
+      tabs.forEach((tabId, idx) => {
+        document.getElementById(tabId).classList.toggle('active', idx === index);
+      });
+      document.querySelectorAll('.tab-bar .tab-item').forEach((item, idx) => {
+        item.classList.toggle('active', idx === index);
+      });
+      document.querySelectorAll('.mac-sidebar .mac-nav-item').forEach((item, idx) => {
+        item.classList.toggle('active', idx === index);
+      });
+    }
+
+    // Modal controllers
+    function openAddTaskModal() {
+      document.getElementById("taskFormId").value = "";
+      document.getElementById("taskFormTitle").value = "";
+      document.getElementById("taskFormSubject").value = "";
+      document.getElementById("taskFormDesc").value = "";
+      document.getElementById("taskFormDate").value = new Date(Date.now() + 86400000).toISOString().split("T")[0];
+      selectPriority('Medium');
+      document.getElementById("taskModalTitle").innerText = "New Task";
+      document.getElementById("taskModalOverlay").classList.add("active");
+    }
+
+    function editTask(id) {
+      const task = getTasks().find(t => t.id === id);
+      if (!task) return;
+      document.getElementById("taskFormId").value = task.id;
+      document.getElementById("taskFormTitle").value = task.title;
+      document.getElementById("taskFormSubject").value = task.subject;
+      document.getElementById("taskFormDesc").value = task.description || "";
+      document.getElementById("taskFormDate").value = task.dueDate;
+      selectPriority(task.priority);
+      document.getElementById("taskModalTitle").innerText = "Edit Task";
+      document.getElementById("taskModalOverlay").classList.add("active");
+    }
+
+    function closeTaskModal() {
+      document.getElementById("taskModalOverlay").classList.remove("active");
+    }
+
+    function selectPriority(prio) {
+      currentPriority = prio;
+      document.getElementById("prioLowBtn").classList.toggle("active", prio === "Low");
+      document.getElementById("prioMedBtn").classList.toggle("active", prio === "Medium");
+      document.getElementById("prioHighBtn").classList.toggle("active", prio === "High");
+    }
+
+    function handleTaskSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById("taskFormId").value || "task-" + Date.now();
+      const title = document.getElementById("taskFormTitle").value.trim();
+      const subject = document.getElementById("taskFormSubject").value.trim();
+      const date = document.getElementById("taskFormDate").value;
+      const desc = document.getElementById("taskFormDesc").value.trim();
+
+      const tasks = getTasks();
+      const existingIdx = tasks.findIndex(t => t.id === id);
+      const newTaskObj = {
+        id: id,
+        title: title,
+        subject: subject,
+        priority: currentPriority,
+        dueDate: date,
+        description: desc,
+        isCompleted: existingIdx >= 0 ? tasks[existingIdx].isCompleted : false
+      };
+
+      if (existingIdx >= 0) {
+        tasks[existingIdx] = newTaskObj;
+      } else {
+        tasks.unshift(newTaskObj);
+      }
+
+      saveTasks(tasks);
+      closeTaskModal();
+      showNotification("Task Saved", `'${title}' has been persisted.`);
+    }
+
+    function openAddClassModal() {
+      document.getElementById("classFormSubject").value = "";
+      document.getElementById("classFormRoom").value = "";
+      document.getElementById("classFormTeacher").value = "";
+      document.getElementById("classFormWeekday").value = selectedWeekdayId;
+      document.getElementById("classFormStart").value = "09:00";
+      document.getElementById("classFormEnd").value = "10:30";
+      renderColorSwatches();
+      document.getElementById("classModalOverlay").classList.add("active");
+    }
+
+    function closeClassModal() {
+      document.getElementById("classModalOverlay").classList.remove("active");
+    }
+
+    function renderColorSwatches() {
+      const container = document.getElementById("colorPickerRow");
+      container.innerHTML = CLASS_COLORS.map(c => `
+        <div class="color-swatch ${c === selectedColorHex ? 'selected' : ''}" style="background:${c};" onclick="selectColor('${c}')"></div>
+      `).join("");
+    }
+
+    function selectColor(hex) {
+      selectedColorHex = hex;
+      renderColorSwatches();
+    }
+
+    function handleClassSubmit(e) {
+      e.preventDefault();
+      const subject = document.getElementById("classFormSubject").value.trim();
+      const room = document.getElementById("classFormRoom").value.trim();
+      const teacher = document.getElementById("classFormTeacher").value.trim();
+      const weekday = parseInt(document.getElementById("classFormWeekday").value);
+      const start = document.getElementById("classFormStart").value;
+      const end = document.getElementById("classFormEnd").value;
+
+      if (start >= end) {
+        alert("End time must be later than start time!");
+        return;
+      }
+
+      const classes = getClasses();
+      const newClass = {
+        id: "c-" + Date.now(),
+        subject, room, teacher, weekday, start, end,
+        color: selectedColorHex
+      };
+
+      classes.push(newClass);
+      saveClasses(classes);
+      closeClassModal();
+      showNotification("Class Scheduled", `'${subject}' added to timetable.`);
+    }
+
+    function closeModalsOnBg(event, overlayId) {
+      if (event.target.id === overlayId) {
+        document.getElementById(overlayId).classList.remove("active");
+      }
+    }
+
+    // Notifications
+    function showNotification(title, body) {
+      const notif = document.getElementById("iosNotification");
+      document.getElementById("notifTitle").innerText = title;
+      document.getElementById("notifBody").innerText = body;
+      notif.classList.add("visible");
+      setTimeout(() => {
+        notif.classList.remove("visible");
+      }, 4000);
+    }
+
+    function triggerSimulatedNotification() {
+      showNotification("Notification Scheduled", "Local alert will fire in 5 seconds...");
+      setTimeout(() => {
+        showNotification("⏰ Study Alert", "Socket Programming Lab is due in 2 days!");
+      }, 5000);
+    }
+
+    // Device Switcher
+    function setDeviceMode(mode) {
+      const shell = document.getElementById("deviceShell");
+      const phoneBtn = document.getElementById("btnDevicePhone");
+      const macBtn = document.getElementById("btnDeviceMac");
+
+      if (mode === 'mac') {
+        shell.className = "device-shell mac-mode";
+        macBtn.classList.add("active");
+        phoneBtn.classList.remove("active");
+      } else {
+        shell.className = "device-shell iphone-mode";
+        phoneBtn.classList.add("active");
+        macBtn.classList.remove("active");
+      }
+      localStorage.setItem(STORAGE_KEY_DEVICE, mode);
+    }
+
+    // Theme controls
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const next = current === "dark" ? "light" : "dark";
+      setAppTheme(next);
+    }
+
+    function setAppTheme(theme) {
+      if (theme === 'system') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute("data-theme", prefersDark ? "dark" : "light");
+      } else {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+      localStorage.setItem(STORAGE_KEY_THEME, theme);
+      document.getElementById("themeSysBtn").classList.toggle("active", theme === 'system');
+      document.getElementById("themeLightBtn").classList.toggle("active", theme === 'light');
+      document.getElementById("themeDarkBtn").classList.toggle("active", theme === 'dark');
+    }
+
+    function toggleIsland() {
+      const island = document.getElementById("dynamicIsland");
+      island.classList.toggle("expanded");
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const hrs = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById("statusClock").innerText = `${hrs}:${mins}`;
+
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      document.getElementById("dashDateBadge").innerText = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+    }
+
+    // Keyboard Shortcuts (macOS standard)
+    window.addEventListener("keydown", (e) => {
+      // ⌘1 to ⌘5
+      if ((e.metaKey || e.ctrlKey) && e.key >= '1' && e.key <= '5') {
+        e.preventDefault();
+        switchTab(parseInt(e.key) - 1);
+      }
+      // ⌘N: New Task
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'n' || e.key === 'N')) {
+        e.preventDefault();
+        openAddTaskModal();
+      }
+      // Escape
+      if (e.key === "Escape") {
+        closeTaskModal();
+        closeClassModal();
+        closeCodeModal();
+      }
+    });
+
+    // Swift Code Viewer
+    const swiftCodeSnippets = {
+      "MainTabView.swift": `struct MainTabView: View {\n    @Environment(\\.horizontalSizeClass) private var horizontalSizeClass\n    @State private var selectedTab: AppTab = .home\n\n    var body: some View {\n        Group {\n            if horizontalSizeClass == .regular {\n                // Mac Laptop / iPad Sidebar Navigation\n                macLaptopSidebarLayout\n            } else {\n                // iPhone Bottom TabBar\n                compactPhoneTabBarLayout\n            }\n        }\n    }\n}`,
+      "DashboardView.swift": `struct DashboardView: View {\n    @Environment(\\.horizontalSizeClass) private var horizontalSizeClass\n\n    var body: some View {\n        ScrollView {\n            if horizontalSizeClass == .regular {\n                // 2-Column Wide Grid on Mac\n                macLaptopDashboardGrid\n            } else {\n                // Single Column Stack on iPhone\n                phoneDashboardStack\n            }\n        }\n    }\n}`,
+      "StudyTask.swift": `@Model\nfinal class StudyTask {\n    @Attribute(.unique) var id: UUID\n    var title: String\n    var taskDescription: String\n    var subject: String\n    var dueDate: Date\n    var priorityRaw: String\n    var isCompleted: Bool\n    var completedAt: Date?\n    var createdAt: Date\n    var hasReminder: Bool\n    var reminderDate: Date?\n}`,
+      "ClassSession.swift": `@Model\nfinal class ClassSession {\n    @Attribute(.unique) var id: UUID\n    var subject: String\n    var teacherName: String\n    var roomNumber: String\n    var weekdayRaw: Int\n    var startTime: Date\n    var endTime: Date\n    var colorHex: String\n\n    func overlaps(with other: ClassSession) -> Bool {\n        guard self.id != other.id, self.weekday == other.weekday else { return false }\n        return DateHelpers.timeRangesOverlap(\n            start1: self.startTime, end1: self.endTime,\n            start2: other.startTime, end2: other.endTime\n        )\n    }\n}`,
+      "NotificationManager.swift": `@MainActor\nfinal class NotificationManager: ObservableObject {\n    static let shared = NotificationManager()\n\n    func scheduleNotification(for task: StudyTask) {\n        guard task.hasReminder, !task.isCompleted else { return }\n        let trigger = UNCalendarNotificationTrigger(\n            dateMatching: Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: task.dueDate),\n            repeats: false\n        )\n        let request = UNNotificationRequest(identifier: task.id.uuidString, content: content, trigger: trigger)\n        UNUserNotificationCenter.current().add(request)\n    }\n}`,
+      "TimetableView.swift": `struct TimetableView: View {\n    @Query(sort: \\ClassSession.startTime, order: .forward) private var allClasses: [ClassSession]\n    @State private var selectedWeekday: Weekday = Weekday.current\n\n    var body: some View {\n        NavigationStack {\n            VStack {\n                daySelectorBar\n                if hasConflictOnCurrentDay { conflictAlertBanner }\n                classList\n            }\n        }\n    }\n}`,
+      "ProgressTrackerView.swift": `struct ProgressTrackerView: View {\n    @Query private var tasks: [StudyTask]\n\n    var body: some View {\n        NavigationStack {\n            ScrollView {\n                Chart(statusChartData) { SectorMark(...) }\n                Chart(subjectSummaries) { BarMark(...) }\n            }\n        }\n    }\n}`,
+      "SmartStudentPlannerApp.swift": `@main\nstruct SmartStudentPlannerApp: App {\n    let container: ModelContainer\n\n    var body: some Scene {\n        WindowGroup {\n            MainTabView()\n                #if os(macOS)\n                .frame(minWidth: 920, minHeight: 620)\n                #endif\n        }\n        .modelContainer(container)\n        #if os(macOS)\n        .windowStyle(.titleBar)\n        .commands { SidebarCommands() }\n        #endif\n    }\n}`
+    };
+
+    function openCodeModal() {
+      document.getElementById("codeModalOverlay").classList.add("active");
+      loadSwiftFile("MainTabView.swift");
+    }
+
+    function closeCodeModal() {
+      document.getElementById("codeModalOverlay").classList.remove("active");
+    }
+
+    function loadSwiftFile(filename) {
+      document.querySelectorAll(".code-file-tab").forEach(tab => {
+        tab.classList.toggle("active", tab.innerText.includes(filename));
+      });
+      document.getElementById("codeContentDisplay").textContent = swiftCodeSnippets[filename] || "// Content...";
+    }
+
+    function escapeHtml(str) {
+      return (str || "").replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      })[m]);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initializeData();
+      setInterval(updateClock, 30000);
+    });
+  </script>
+</body>
+</html>
