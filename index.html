@@ -46,7 +46,7 @@
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
       --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
-      --sidebar-width: 260px;
+      --sidebar-width: 240px;
       --topbar-height: 64px;
     }
 
@@ -82,6 +82,10 @@
     html, body {
       width: 100%;
       min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       background-color: var(--body-bg);
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       color: var(--text-main);
@@ -95,10 +99,12 @@
       display: flex;
       width: 100%;
       min-height: 100vh;
+      min-height: 100dvh;
       position: relative;
+      box-sizing: border-box;
     }
 
-    /* 1. Left Sticky Desktop Sidebar (260px) */
+    /* 1. Left Sticky Desktop Sidebar (~240px) */
     .desktop-sidebar {
       width: var(--sidebar-width);
       min-width: var(--sidebar-width);
@@ -331,10 +337,13 @@
     .desktop-main {
       flex: 1;
       min-width: 0;
+      width: calc(100% - var(--sidebar-width));
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      min-height: 100dvh;
       background: var(--body-bg);
+      box-sizing: border-box;
     }
 
     /* Top Navigation Bar */
@@ -607,9 +616,10 @@
     /* KPI Summary Cards Grid (4 Columns) */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
       margin-bottom: 24px;
+      width: 100%;
     }
 
     .kpi-card {
@@ -624,6 +634,7 @@
       position: relative;
       overflow: hidden;
       transition: all 0.2s ease;
+      min-width: 0;
     }
 
     .kpi-card:hover {
@@ -689,11 +700,12 @@
       transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Multi-column Dashboard Layout */
+    /* Multi-column Dashboard Layout (Balanced Columns) */
     .dashboard-columns {
       display: grid;
-      grid-template-columns: 1.15fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 24px;
+      width: 100%;
     }
 
     /* Class Schedule Cards */
@@ -705,6 +717,7 @@
       border: 1px solid var(--card-border);
       margin-bottom: 12px;
       transition: all 0.2s ease;
+      min-width: 0;
     }
 
     .class-item:hover {
@@ -720,6 +733,9 @@
     .class-content {
       flex: 1;
       padding: 14px 18px;
+      min-width: 0;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .class-top-row {
@@ -774,6 +790,7 @@
       margin-bottom: 10px;
       transition: all 0.2s ease;
       position: relative;
+      min-width: 0;
     }
 
     .task-item:hover {
@@ -807,6 +824,8 @@
       flex: 1;
       cursor: pointer;
       min-width: 0;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .task-tags {
@@ -865,6 +884,8 @@
       font-weight: 700;
       line-height: 1.3;
       margin-bottom: 4px;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .task-title.completed {
@@ -877,6 +898,8 @@
       color: var(--text-secondary);
       margin-bottom: 6px;
       line-height: 1.4;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .task-footer {
@@ -1417,16 +1440,16 @@
     /* ------------------------------------------------------------- */
     @media (max-width: 1200px) {
       .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
       .dashboard-columns {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
       .progress-charts-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
       .settings-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
     }
 
@@ -1442,6 +1465,9 @@
       .desktop-sidebar.open {
         transform: translateX(0);
       }
+      .desktop-main {
+        width: 100%;
+      }
       .mobile-menu-btn {
         display: flex;
       }
@@ -1455,7 +1481,7 @@
         display: none;
       }
       .kpi-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
       .tasks-control-bar {
         flex-direction: column;
@@ -1585,16 +1611,12 @@
             <span class="topbar-clock" id="statusClock">09:41</span>
           </div>
 
-          <button class="topbar-btn" id="toggleThemeBtn" onclick="toggleTheme()" title="Toggle Theme">
+          <button class="topbar-btn" id="toggleThemeBtn" onclick="toggleTheme()" title="Toggle Dark / Light Theme">
             <span id="themeBtnIcon">🌓</span> <span>Theme</span>
           </button>
 
-          <button class="topbar-btn" onclick="seedSampleData()" title="Reload Demo Dataset">
-            <span>🔄</span> <span>Demo Data</span>
-          </button>
-
-          <button class="topbar-btn topbar-btn-primary" onclick="openCodeModal()" title="View Swift & SwiftUI Code">
-            <span>💻</span> <span>Swift Code</span>
+          <button class="topbar-btn topbar-btn-primary" onclick="openAddTaskModal()" title="Add New Coursework Task (⌘N)">
+            <span>➕</span> <span>New Task</span>
           </button>
         </div>
       </header>
@@ -1910,6 +1932,9 @@
                   <span style="font-weight:700;">Zero-latency Offline Local Persistence</span>
                 </div>
               </div>
+              <button class="btn-quick btn-quick-secondary" style="margin-top: 16px;" onclick="openCodeModal()">
+                <span>💻</span> View Swift &amp; SwiftUI Source Code
+              </button>
             </div>
           </div>
         </section>
@@ -2265,8 +2290,11 @@
         `).join("");
       }
 
-      // Upcoming Deadlines (up to 4)
-      const upcoming = tasks.filter(t => !t.isCompleted).slice(0, 4);
+      // Upcoming Deadlines (up to 5, sorted by due date)
+      const upcoming = tasks
+        .filter(t => !t.isCompleted)
+        .sort((a, b) => a.dueDate.localeCompare(b.dueDate))
+        .slice(0, 5);
       const upcomingContainer = document.getElementById("dashUpcomingTasksContainer");
 
       if (upcoming.length === 0) {
@@ -2299,6 +2327,12 @@
         if (selectedTaskFilter === 'completed') return t.isCompleted;
         if (selectedTaskFilter === 'overdue') return !t.isCompleted && t.dueDate < todayStr;
         return true;
+      });
+
+      // Sort tasks: pending first, then by dueDate ascending
+      filtered.sort((a, b) => {
+        if (a.isCompleted !== b.isCompleted) return a.isCompleted ? 1 : -1;
+        return a.dueDate.localeCompare(b.dueDate);
       });
 
       const container = document.getElementById("tasksListContainer");
